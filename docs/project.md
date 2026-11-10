@@ -1,9 +1,9 @@
 # プロジェクト概要
 
 <!-- PROJECT-CONFIG
-repository_name=
-app_name=
-app_dir=
+repository_name=poker
+app_name=pokergame
+app_dir=pokergame
 -->
 
 ## 開発者（GitHub名）
@@ -11,6 +11,10 @@ app_dir=
 `/init-project` が、GitHubから取得した最新の Collaborator 一覧でこのブロックを更新する。各Issueの担当者はGitHub上で管理する。
 
 <!-- COLLABORATORS: START -->
+- b23080
+- e1b24019
+- e1b24079
+- s1somaru
 <!-- COLLABORATORS: END -->
 
 ## 開発するアプリケーションの条件
