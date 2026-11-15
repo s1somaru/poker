@@ -1,0 +1,40 @@
+package oit.is.team5.pokergame.controller;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.test.web.servlet.MockMvc;
+
+@WebMvcTest(UserController.class)
+@AutoConfigureMockMvc(addFilters = false)
+class UserControllerTest {
+
+        @Autowired
+        MockMvc mockMvc;
+
+        @Test
+        void 登録画面を開くとユーザー名入力フォームが表示される() throws Exception {
+                mockMvc.perform(get("/register"))
+                                .andExpect(status().isOk())
+                                .andExpect(view().name("register"))
+                                .andExpect(content().string(containsString("name=\"username\"")))
+                                .andExpect(content().string(containsString("type=\"submit\"")));
+        }
+
+        @Test
+        void ユーザー名を送信すると入力値を保持して登録画面が返される() throws Exception {
+                mockMvc.perform(post("/register").param("username", "alice"))
+                                .andExpect(status().isOk())
+                                .andExpect(view().name("register"))
+                                .andExpect(content().string(containsString("value=\"alice\"")));
+        }
+
+}
