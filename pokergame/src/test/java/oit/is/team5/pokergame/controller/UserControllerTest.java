@@ -1,6 +1,9 @@
 package oit.is.team5.pokergame.controller;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -42,6 +45,19 @@ class UserControllerTest {
         .andExpect(status().isOk())
         .andExpect(view().name("register"))
         .andExpect(content().string(containsString("value=\"alice\"")));
+
+    verify(userInfoMapper).insertUser("alice");
+  }
+
+  @Test
+  void 登録済みのユーザー名を送信するとエラーを表示して保存しない() throws Exception {
+    when(userInfoMapper.countByUsername("akari")).thenReturn(1);
+
+    mockMvc.perform(post("/register").param("username", "akari"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("そのユーザー名はすでに使われています")));
+
+    verify(userInfoMapper, never()).insertUser("akari");
   }
 
 }
